@@ -230,3 +230,20 @@ We welcome contributions! Please read our [contribution guidelines](./CONTRIBUTI
 ## Related Projects
 
 [Apache Fineract](https://github.com/apache/fineract) - Apache Fineract provides open APIs and affordable core banking solution for financial institutions and is the backend for all UIs of the Mifos.
+
+
+---
+# 🚀 Client Self Service Portal (Lite) - Finance Ops
+
+## 🚩 Problem Statement
+Financial organizations currently struggle with manual data requests. Clients face delays in getting simple information like account balances and transaction history because they have to rely on email or phone calls to the operations team.
+
+## 💡 Our Solution
+We are building a **secure, web-based Self-Service Portal** using **Python** and **HTML/CSS**.
+This portal will allow clients to:
+1.  **Login Securely** (Authentication).
+2.  View their **Real-time Account Balance**.
+3.  Check **Recent Transactions**.
+4.  **Download Statements** instantly.
+
+This reduces the workload on the bank staff and improves the client experience.
