@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Login - Mifos Portal</title>
+    <style>
+        /* --- CSS STYLING FOR MODERN FINTECH LOOK --- */
+        
+        /* General Body Styling: Sets the background and centers content */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5; /* Light grey background for a professional look */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Login Card Container: The main white box holding the form */
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px; /* Rounded corners */
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1); /* Soft shadow for depth */
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        /* Logo Styling */
+        .logo {
+            color: #0056D2; /* Mifos Royal Blue color */
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* Subtext Styling */
+        .subtext {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        /* Input Fields Styling */
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box; /* Ensures padding stays within width */
+            font-size: 14px;
+        }
+
+        /* Button Styling */
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #0056D2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s; /* Smooth transition for hover effect */
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        /* Button Hover Effect: Darkens the button when mouse is over it */
+        button:hover {
+            background-color: #0044a5;
+        }
+
+        /* Footer Text Styling */
+        .footer {
+            margin-top: 25px;
+            font-size: 12px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Login Box Container -->
+    <div class="login-container">
+        <span class="logo">Mifos | Client Portal</span>
+        <p class="subtext">Securely access your financial dashboard</p>
+        
+        <!-- Login Form: Sends entered data to the /dashboard route via POST method -->
+        <form action="/dashboard" method="POST">
+            <!-- Username Input -->
+            <input type="text" name="username" placeholder="Client ID / Email" required>
+            <!-- Password Input -->
+            <input type="password" name="password" placeholder="Password" required>
+            <!-- Submit Button -->
+            <button type="submit">Login</button>
+        </form>
+
+        <div class="footer">
+            Powered by Polaris Finance Ops
+        </div>
+    </div>
+
+</body>
+</html>
