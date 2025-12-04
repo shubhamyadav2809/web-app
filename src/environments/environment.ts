@@ -8,6 +8,7 @@ import env from './.env';
 
 // The `window.env` object is loaded in the `index.html` file
 const loadedEnv = window.env || {};
+apiUrl: 'https://demo.mifos.io/fineract-provider/api/v1'
 
 export const environment = {
   production: false,
