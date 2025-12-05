@@ -5,44 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Mifos Client</title>
     <style>
-        /* --- DASHBOARD STYLING --- */
+        /* --- CORE STYLING --- */
         body { font-family: 'Segoe UI', sans-serif; background-color: #f4f7f6; margin: 0; }
-        
-        /* Navbar Style */
         .navbar { background-color: #0056D2; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 20px; font-weight: bold; }
-        .user-info { font-size: 14px; }
-
-        /* Main Content Container */
         .container { max-width: 1000px; margin: 20px auto; padding: 20px; }
-
-        /* Card Styling (Balance & Welcome) */
         .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        .balance-title { color: #666; font-size: 14px; }
+        
+        /* Balance & Typography */
         .balance-amount { font-size: 32px; font-weight: bold; color: #333; margin: 10px 0; }
         
-        /* Action Buttons */
+        /* Table Styling */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th { text-align: left; padding: 12px; background-color: #f8f9fa; border-bottom: 2px solid #eee; }
+        td { padding: 12px; border-bottom: 1px solid #eee; }
+        
+        /* Transaction Colors */
+        .amt-pos { color: green; font-weight: bold; }
+        .amt-neg { color: red; font-weight: bold; }
+        
+        /* Buttons */
         .btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-block; }
         .btn-primary { background-color: #0056D2; color: white; }
         .btn-secondary { background-color: #e0e0e0; color: #333; margin-left: 10px; }
-        .btn:hover { opacity: 0.9; }
-
-        /* Transaction Table Styling */
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th { text-align: left; padding: 12px; background-color: #f8f9fa; color: #666; font-size: 14px; border-bottom: 2px solid #eee; }
-        td { padding: 12px; border-bottom: 1px solid #eee; font-size: 14px; }
-        .credit { color: green; font-weight: bold; }
-        .debit { color: red; font-weight: bold; }
-        .status-completed { color: green; background: #e6f9e6; padding: 4px 8px; border-radius: 12px; font-size: 12px; }
-        .status-pending { color: orange; background: #fff4e5; padding: 4px 8px; border-radius: 12px; font-size: 12px; }
+        .btn-secondary:hover { background-color: #c0c0c0; }
     </style>
 </head>
 <body>
-
-    <!-- Top Navigation Bar -->
     <div class="navbar">
         <div class="logo">Mifos | Client Portal</div>
-        <!-- Ye 'user' variable Python se aayega -->
         <div class="user-info">Logged in as: <strong>{{ user }}</strong></div>
     </div>
 
@@ -55,19 +45,22 @@
                 <p style="color: #666; margin: 5px 0;">Here is your financial overview.</p>
             </div>
             <div>
-                <a href="#" class="btn btn-primary">Download Statement</a>
-                <a href="/" class="btn btn-secondary">Logout</a>
+                <!-- Download Button: /download route par jayega -->
+                <a href="/download" class="btn btn-primary">Download Statement</a>
+                <!-- Logout Button: /logout route par jayega -->
+                <a href="/logout" class="btn btn-secondary">Logout</a>
             </div>
         </div>
 
         <!-- Account Balance Card -->
         <div class="card">
             <div class="balance-title">Total Account Balance</div>
-            <div class="balance-amount">₹ 50,450.00</div>
+            <!-- Balance Database se aayega -->
+            <div class="balance-amount">₹ {{ balance }}</div>
             <div style="color: green; font-size: 14px;">▲ 12% increase from last month</div>
         </div>
 
-        <!-- Recent Transactions Table -->
+        <!-- Recent Transactions Table (Dynamic Data) -->
         <div class="card">
             <h3>Recent Transactions</h3>
             <table>
@@ -75,40 +68,35 @@
                     <tr>
                         <th>Date</th>
                         <th>Description</th>
-                        <th>Status</th>
                         <th>Amount</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- Jinja2 Loop: Python se aaye har transaction ke liye row banegi -->
+                    {% for t in transactions %}
                     <tr>
-                        <td>01 Dec 2025</td>
-                        <td>Salary Credit</td>
-                        <td><span class="status-completed">Completed</span></td>
-                        <td class="credit">+ ₹ 45,000.00</td>
+                        <td>{{ t[0] }}</td> <!-- Date -->
+                        <td>{{ t[1] }}</td> <!-- Description -->
+                        
+                        <!-- Amount aur uska color logic (t[2] = Amount) -->
+                        {% if t[2] > 0 %}
+                            <td class="amt-pos">+ ₹ {{ t[2] }}</td>
+                        {% else %}
+                            <td class="amt-neg">₹ {{ t[2] }}</td>
+                        {% endif %}
+                        
+                        <!-- Status (t[3]) -->
+                        <td><span style="background: #e6f9e6; color: green; padding: 4px 8px; border-radius: 12px; font-size: 12px;">{{ t[3] }}</span></td>
                     </tr>
-                    <tr>
-                        <td>28 Nov 2025</td>
-                        <td>Grocery Store</td>
-                        <td><span class="status-completed">Completed</span></td>
-                        <td class="debit">- ₹ 2,300.00</td>
-                    </tr>
-                    <tr>
-                        <td>25 Nov 2025</td>
-                        <td>Electric Bill</td>
-                        <td><span class="status-pending">Pending</span></td>
-                        <td class="debit">- ₹ 850.00</td>
-                    </tr>
-                    <tr>
-                        <td>20 Nov 2025</td>
-                        <td>Fuel Station</td>
-                        <td><span class="status-completed">Completed</span></td>
-                        <td class="debit">- ₹ 1,200.00</td>
-                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
+            {% if not transactions %}
+                <p style="text-align: center; color: #888; margin-top: 20px;">No recent transactions found.</p>
+            {% endif %}
         </div>
 
     </div>
-
 </body>
 </html>
