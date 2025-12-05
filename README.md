@@ -247,3 +247,90 @@ This portal will allow clients to:
 4.  **Download Statements** instantly.
 
 This reduces the workload on the bank staff and improves the client experience.
+
+## Data Flow Diagrams  
+Flow 1: Client Authentication (Login Flow) 
+This explains how a user logs in securely using Python and SQLite. 
+[Client] 
+V 
+[Frontend: Login Page (HTML/CSS)] 
+V 
+1. POST /api/login (username, password) 
+V 
+[Backend: Python API Route] 
+| Validate input format 
+V 
+[Auth Service (Python Logic)] 
+| Fetch user details 
+V 
+[Database: SQLite Users Table] 
+| Return stored user & hashed password 
+V 
+[Auth Service] 
+| Verify Password (Hash Comparison) 
+| Generate Session/Token 
+V 
+[Backend: Python API Route] 
+| 2. Response { success: true, token/session_id } 
+V 
+[Frontend] 
+| Store Session 
+V 
+[Redirect to Dashboard] 
+Flow 2: Viewing Balance & Transactions (Dashboard Flow) 
+This explains how data is fetched from the database and shown on the screen. 
+[Client] 
+V 
+[Frontend: Dashboard Page] 
+| On Page Load 
+V 
+1. GET /api/dashboard-data 
+(Header: Authorization Token) 
+V 
+[Backend: Python API Route] 
+| Verify Session Token 
+V 
+[Data Service (Python Logic)] 
+| Request balance & history 
+V 
+[Database: SQLite Transactions Table] 
+| Return rows (Date, Description, Amount) 
+V 
+[Data Service] 
+| Format data into JSON 
+V 
+[Backend: Python API Route] 
+| 2. Response { balance: 50000, transactions: [...] } 
+V 
+[Frontend] 
+| Update HTML elements 
+V 
+[UI Displays Balance & List] 
+Flow 3: Financial Statement Download Flow 
+This explains how the PDF/CSV file is generated and downloaded. 
+[Client] 
+V 
+[Frontend: Dashboard UI] 
+| Click "Download Statement" Button 
+V 
+1. GET /api/download-statement 
+V 
+[Backend: Python API Route] 
+| Verify Session Token 
+V 
+[Report Service (Python Logic)] 
+| Fetch full transaction history 
+V 
+[Database: SQLite Transactions Table] 
+| Return all transaction records 
+V 
+[Report Service] 
+| Generate CSV/PDF file in memory 
+V 
+[Backend: Python API Route] 
+| 2. Response (File Attachment: statement.csv) 
+V 
+[Frontend] 
+| Browser triggers download 
+V 
+[File Saved to Client Device] 
